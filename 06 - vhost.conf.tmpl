@@ -1,0 +1,17 @@
+server {
+        listen {{ httpd_port }};
+        listen [::]:{{ httpd_port }};
+
+        root {{ document_root }};
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name {{ httpd_domain }} www.{{ httpd_domain }};
+       
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        }
+} 
